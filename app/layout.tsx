@@ -8,12 +8,13 @@ import { RainbowKitProvider, getDefaultConfig } from "@rainbow-me/rainbowkit";
 import { mainnet, polygon } from "wagmi/chains";
 import "@rainbow-me/rainbowkit/styles.css";
 
-// Your WalletConnect project ID
+// ✅ WalletConnect project ID
 const projectId = "91ec24582a926e8fbcc720bc88f987cd";
 
 const config = getDefaultConfig({
   appName: "XCELTRIP",
   projectId,
+  appUrl: "https://xceltrip-two.vercel.app/", // ✅ Add this line
   chains: [mainnet, polygon],
   transports: {
     [mainnet.id]: http(),
