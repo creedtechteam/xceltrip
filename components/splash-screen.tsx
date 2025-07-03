@@ -3,18 +3,23 @@
 import { useEffect } from "react"
 import { motion } from "framer-motion"
 import Image from "next/image"
+import { useRouter } from "next/navigation"
 
-interface SplashScreenProps {
-  onNext: () => void
-}
+export default function SplashScreen() {
+  const router = useRouter()
 
-export default function SplashScreen({ onNext }: SplashScreenProps) {
   useEffect(() => {
     const timer = setTimeout(() => {
-      onNext()
+      const token = localStorage.getItem("xceltrip_token")
+      if (token) {
+        router.replace("/home") // ✅ Redirect to home if already logged in
+      } else {
+        router.replace("/welcome") // 👋 Otherwise go to welcome
+      }
     }, 2000)
+
     return () => clearTimeout(timer)
-  }, [onNext])
+  }, [router])
 
   return (
     <motion.div

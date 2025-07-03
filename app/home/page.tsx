@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import {
   Search,
@@ -7,16 +7,28 @@ import {
   Star,
   BadgePercent,
   Heart,
-} from "lucide-react"
-import Image from "next/image"
-import { Input } from "@/components/ui/input"
-import BottomNavigation from "@/components/bottom-navigation"
+} from "lucide-react";
+import Image from "next/image";
+import { Input } from "@/components/ui/input";
+import BottomNavigation from "@/components/bottom-navigation";
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
 
 interface HomeScreenProps {
-  onNavigate: (screen: string) => void
+  onNavigate: (screen: string) => void;
 }
 
 export default function HomeScreen({ onNavigate }: HomeScreenProps) {
+  const router = useRouter();
+
+  // ✅ Redirect to login if token is missing
+  useEffect(() => {
+    const token = localStorage.getItem("xceltrip_token");
+    if (!token) {
+      router.replace("/login");
+    }
+  }, [router]);
+
   const hotels = [
     {
       id: 1,
@@ -60,7 +72,7 @@ export default function HomeScreen({ onNavigate }: HomeScreenProps) {
       price: "$250",
       image: "/images/hotel6.jpg",
     },
-  ]
+  ];
 
   return (
     <div className="relative min-h-screen bg-black text-white flex flex-col">
@@ -94,7 +106,10 @@ export default function HomeScreen({ onNavigate }: HomeScreenProps) {
         <h2 className="mb-4 text-lg font-semibold">Popular homes in...</h2>
         <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 mb-8">
           {hotels.map((hotel) => (
-            <div key={hotel.id} className="relative bg-gray-800 rounded-lg overflow-hidden">
+            <div
+              key={hotel.id}
+              className="relative bg-gray-800 rounded-lg overflow-hidden"
+            >
               <div className="relative h-28 w-full">
                 <Image
                   src={hotel.image}
@@ -106,7 +121,9 @@ export default function HomeScreen({ onNavigate }: HomeScreenProps) {
               </div>
               <div className="p-3">
                 <h3 className="text-sm font-medium">{hotel.name}</h3>
-                <p className="text-xs text-gray-400">{hotel.price} per night</p>
+                <p className="text-xs text-gray-400">
+                  {hotel.price} per night
+                </p>
               </div>
             </div>
           ))}
@@ -116,7 +133,10 @@ export default function HomeScreen({ onNavigate }: HomeScreenProps) {
         <h2 className="mb-4 text-lg font-semibold">Available Next Month</h2>
         <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
           {hotels.map((hotel) => (
-            <div key={hotel.id} className="relative bg-gray-800 rounded-lg overflow-hidden">
+            <div
+              key={hotel.id}
+              className="relative bg-gray-800 rounded-lg overflow-hidden"
+            >
               <div className="relative h-28 w-full">
                 <Image
                   src={hotel.image}
@@ -127,7 +147,9 @@ export default function HomeScreen({ onNavigate }: HomeScreenProps) {
               </div>
               <div className="p-3">
                 <h3 className="text-sm font-medium">{hotel.name}</h3>
-                <p className="text-xs text-gray-400">{hotel.price} per night</p>
+                <p className="text-xs text-gray-400">
+                  {hotel.price} per night
+                </p>
               </div>
             </div>
           ))}
@@ -139,5 +161,5 @@ export default function HomeScreen({ onNavigate }: HomeScreenProps) {
         <BottomNavigation currentPath="/home" />
       </div>
     </div>
-  )
+  );
 }
