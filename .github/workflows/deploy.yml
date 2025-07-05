@@ -1,0 +1,33 @@
+name: Deploy to IPFS via PinMe
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout the code
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Install dependencies and build
+        run: |
+          npm install
+          npm run build
+
+      - name: Install PinMe
+        run: npm install -g pinme
+
+      - name: Deploy to IPFS and update ENS
+        run: pinme upload ./build
+        env:
+          PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
+          ENS_NAME: xceltrip.eth
