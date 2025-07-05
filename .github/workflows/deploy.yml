@@ -27,7 +27,7 @@ jobs:
         run: npm install -g pinme
 
       - name: Deploy to IPFS and update ENS
-        run: pinme upload ./build
+        run: pinme upload ./out
         env:
           PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
           ENS_NAME: xceltrip.eth
